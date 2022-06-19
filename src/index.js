@@ -93,4 +93,15 @@ form.addEventListener('submit', (e) => {
        })
     })
 })
+const addToCharacterBar = (character) => {
+    const span = document.createElement('span')
+    span.textContent = character.name
+    characterBar.append(span)
+  span.addEventListener('click', (e) => {
+          const name = characterInfo.querySelector('#name')
+        const image = characterInfo.querySelector('#image')
+  name.textContent = character.name
+        image.src = character.image
+    })     
 
+}
