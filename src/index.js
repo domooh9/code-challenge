@@ -105,3 +105,26 @@ const addToCharacterBar = (character) => {
     })     
 
 }
+const resetButton = document.querySelector('#reset-btn')
+
+resetButton.addEventListener('click', (e) => {
+
+    fetch(url)
+    .then(res => res.json())
+    .then(characters => {
+        const charName = document.querySelector('#name')
+        const charID = characters.find(character => character.name === charName.textContent)
+        fetch(`${url}/${charID.id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify({
+                votes : '0'
+            })
+        })
+        .then(res => res.json())
+        .then(data => characterVotes.textContent = data.votes)
+    })
+
+})
