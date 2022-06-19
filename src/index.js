@@ -128,3 +128,28 @@ resetButton.addEventListener('click', (e) => {
     })
 
 })
+const addNewForm = document.querySelector("#character-form")
+
+addNewForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+    const newName = e.target.name.value
+    const newImage = e.target['image-url'].value
+
+    fetch(url, {
+        method: "POST",
+        headers: {
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify({
+            name : newName,
+            image : newImage,
+            votes : '0',
+        })
+    })
+    .then(res => res.json())
+    .then(data => addToCharacterBar(data))
+    .catch(err => console.log(err))
+
+    addNewForm.reset()
+})
+
