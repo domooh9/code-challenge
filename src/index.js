@@ -64,3 +64,33 @@ fetch(url)
     characterVotes.textContent = characters[0].votes
  characters.forEach(character => addToCharacterBar(character))
 })
+.catch(err => console.log(err))
+const form = document.querySelector('#votes-form')
+form.addEventListener('submit', (e) => {
+    e.preventDefault()
+    let currentVotes = parseInt(characterVotes.textContent, 10)
+    let addedVotes = parseInt(e.target.votes.value, 10)
+  characterVotes.textContent = (currentVotes += addedVotes)
+    form.reset()
+    fetch(url)
+    .then(res => res.json())
+    .then(characters => {
+        const charName = document.querySelector('#name')
+        const charID = characters.find(character => character.name === charName.textContent)
+        fetch(`${url}/${charID.id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify({
+                votes : characterVotes.textContent
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            characterVotes.textContent = data.votes
+            console.log(data.votes)
+       })
+    })
+})
+
